@@ -1,5 +1,6 @@
 import { Bell, Search, Command, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 export const TopNav = ({ title, subtitle }: { title: string; subtitle?: string }) => (
   <header className="sticky top-0 z-20 h-16 border-b border-border/60 bg-background/80 backdrop-blur-xl px-6 flex items-center gap-4">
@@ -29,10 +30,12 @@ export const TopNav = ({ title, subtitle }: { title: string; subtitle?: string }
       <span className="absolute top-2 right-2 h-1.5 w-1.5 rounded-full bg-primary" />
     </Button>
 
-    <Button className="h-9 gradient-primary text-primary-foreground hover:opacity-90 shadow-[0_0_24px_-4px_hsl(var(--primary)/0.6)]">
-      <Plus className="h-4 w-4 mr-1.5" />
-      New Prospect
-    </Button>
+    <Link to="/app/add">
+      <Button className="h-9 gradient-primary text-primary-foreground hover:opacity-90 shadow-[0_0_24px_-4px_hsl(var(--primary)/0.6)]">
+        <Plus className="h-4 w-4 mr-1.5" />
+        New Prospect
+      </Button>
+    </Link>
 
     <div className="h-9 w-9 rounded-xl gradient-primary p-[1.5px]">
       <div className="h-full w-full rounded-[10px] bg-background flex items-center justify-center text-xs font-semibold">
