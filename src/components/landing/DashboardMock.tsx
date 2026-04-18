@@ -97,7 +97,7 @@ export const DashboardMock = () => (
                   <div className="text-[10px] text-muted-foreground">{k.label}</div>
                   <div className="flex items-end justify-between mt-0.5">
                     <div className="font-display font-semibold text-lg tabular-nums">
-                      <CountUp value={k.value} duration={1400} />{k.suffix ?? ""}
+                      <CountUp value={k.value} />{k.suffix ?? ""}
                     </div>
                     <div className={`text-[9px] flex items-center gap-0.5 ${k.up ? "text-success" : "text-destructive"}`}>
                       {k.up ? <TrendingUp className="h-2.5 w-2.5" /> : <TrendingDown className="h-2.5 w-2.5" />}
