@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { PlayCircle, ArrowRight } from "lucide-react";
-import { AnnouncementBar } from "@/components/landing/AnnouncementBar";
+
 import { SiteNav } from "@/components/landing/SiteNav";
 import { HeroArcs } from "@/components/landing/HeroArcs";
 import { DashboardMock } from "@/components/landing/DashboardMock";
 import { LogoStrip } from "@/components/landing/LogoStrip";
 import { FeatureBlocks } from "@/components/landing/FeatureBlocks";
 import { BenefitsGrid } from "@/components/landing/BenefitsGrid";
-import { Pricing } from "@/components/landing/Pricing";
+
 import { Integrations } from "@/components/landing/Integrations";
 import { Testimonials } from "@/components/landing/Testimonials";
 import { Blog } from "@/components/landing/Blog";
@@ -19,7 +19,7 @@ import { Footer } from "@/components/landing/Footer";
 const Landing = () => {
   return (
     <div id="home" className="min-h-screen relative overflow-hidden bg-background">
-      <AnnouncementBar />
+
       <SiteNav />
 
       {/* HERO */}
@@ -83,7 +83,7 @@ const Landing = () => {
       <LogoStrip />
       <FeatureBlocks />
       <BenefitsGrid />
-      <Pricing />
+
       <Integrations />
       <Testimonials />
       <Blog />

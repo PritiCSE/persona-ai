@@ -9,6 +9,7 @@ const posts = [
     title: "How to automate your outbound funnel without losing the human touch",
     excerpt: "The line between automation and authenticity is thinner than you think. Here's how the best teams stay on the right side of it.",
     accent: "from-primary/40 via-primary/10 to-transparent",
+    image: "/images/sales_funnel.png"
   },
   {
     cat: "Insight",
@@ -16,6 +17,7 @@ const posts = [
     title: "The 7 messaging angles that consistently win replies in 2026",
     excerpt: "We analyzed 1.2M sent messages across our customer base. These are the patterns that actually move the needle.",
     accent: "from-accent/40 via-accent/10 to-transparent",
+    image: "/images/messaging_graphs.png"
   },
   {
     cat: "Marketing",
@@ -23,6 +25,7 @@ const posts = [
     title: "How AI agents are quietly rewriting B2B sales playbooks",
     excerpt: "It's no longer just about volume. The teams winning now are the ones whose tools actually learn from every send.",
     accent: "from-secondary/40 via-secondary/10 to-transparent",
+    image: "/images/ai_playbook.png"
   },
 ];
 
@@ -55,10 +58,10 @@ export const Blog = () => (
             transition={{ duration: 0.5, delay: i * 0.08 }}
             className="group card-premium overflow-hidden flex flex-col hover:-translate-y-1 transition-transform duration-300"
           >
-            <div className={`relative aspect-[16/10] bg-gradient-to-br ${p.accent} overflow-hidden`}>
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,hsl(0_0%_100%/0.1),transparent_60%)]" />
-              <div className="absolute inset-0 grid-bg opacity-30" />
-              <div className="absolute top-4 left-4">
+            <div className={`relative aspect-[16/10] bg-gradient-to-br ${p.accent} overflow-hidden bg-black/60`}>
+              <img src={p.image} className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700 mix-blend-overlay" alt={p.title} />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+              <div className="absolute top-4 left-4 z-10">
                 <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider ${p.catColor}`}>
                   {p.cat}
                 </span>

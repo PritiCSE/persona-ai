@@ -7,7 +7,6 @@ const links = [
   { href: "#home", label: "Home" },
   { href: "#features", label: "Features" },
   { href: "#brain", label: "AI Brain" },
-  { href: "#pricing", label: "Pricing" },
   { href: "#blog", label: "Resources" },
 ];
 
@@ -23,7 +22,7 @@ export const SiteNav = () => {
   return (
     <header
       className={cn(
-        "sticky top-0 z-30 transition-all duration-300",
+        "fixed top-0 w-full z-50 transition-all duration-300",
         scrolled ? "py-3" : "py-5"
       )}
     >
