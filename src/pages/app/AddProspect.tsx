@@ -4,7 +4,13 @@ import { Sparkles, ChevronRight, User, Building2, Briefcase, Globe, Mail, Linked
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
-const Field = ({ label, icon: Icon, children }: any) => (
+interface FieldProps {
+  label: string;
+  icon: React.ElementType;
+  children: React.ReactNode;
+}
+
+const Field = ({ label, icon: Icon, children }: FieldProps) => (
   <label className="block">
     <span className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">{label}</span>
     <div className="mt-1.5 relative group">
@@ -16,10 +22,21 @@ const Field = ({ label, icon: Icon, children }: any) => (
 
 const inputCls = "w-full h-11 pl-10 pr-3 rounded-xl bg-input/60 border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30 text-sm transition placeholder:text-muted-foreground";
 
+interface FormData {
+  name: string;
+  email: string;
+  linkedin_url: string;
+  company: string;
+  role: string;
+  industry: string;
+  company_size: string;
+  region: string;
+}
+
 const AddProspect = () => {
   const [filled, setFilled] = useState(0);
   const [saving, setSaving] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     linkedin_url: "",
@@ -31,9 +48,9 @@ const AddProspect = () => {
   });
   const { toast } = useToast();
 
-  const handleInputChange = (e: any) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.currentTarget;
+    setFormData(prev => ({ ...prev, [name as keyof FormData]: value }));
     if (name === "name") {
       setFilled(value.length > 0 ? Math.max(filled, 1) : 0);
     }
@@ -61,7 +78,6 @@ const AddProspect = () => {
         title: "Success",
         description: data.message || "Prospect saved successfully"
       });
-      // Reset form
       setFormData({
         name: "",
         email: "",
