@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
 from app.core.config import settings
+from app.api.routes import prospects, campaigns
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -27,6 +28,10 @@ if settings.CORS_ORIGINS:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+# Include routers
+app.include_router(prospects.router)
+app.include_router(campaigns.router)
 
 @app.get("/health")
 async def health_check():

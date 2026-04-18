@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Sparkles, ChevronRight, User, Building2, Briefcase, Globe, Mail, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 const Field = ({ label, icon: Icon, children }: any) => (
   <label className="block">
@@ -17,6 +18,72 @@ const inputCls = "w-full h-11 pl-10 pr-3 rounded-xl bg-input/60 border border-bo
 
 const AddProspect = () => {
   const [filled, setFilled] = useState(0);
+  const [saving, setSaving] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    linkedin_url: "",
+    company: "",
+    role: "CTO",
+    industry: "SaaS",
+    company_size: "1–10",
+    region: "North America",
+  });
+  const { toast } = useToast();
+
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (name === "name") {
+      setFilled(value.length > 0 ? Math.max(filled, 1) : 0);
+    }
+  };
+
+  const handleSaveProspect = async () => {
+    if (!formData.name || !formData.email) {
+      toast({
+        title: "Error",
+        description: "Please fill in required fields",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const response = await fetch("http://localhost:8000/api/v1/prospects/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      });
+      const data = await response.json();
+      toast({
+        title: "Success",
+        description: data.message || "Prospect saved successfully"
+      });
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        linkedin_url: "",
+        company: "",
+        role: "CTO",
+        industry: "SaaS",
+        company_size: "1–10",
+        region: "North America",
+      });
+      setFilled(0);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to save prospect",
+        variant: "destructive"
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
     <div className="grid lg:grid-cols-3 gap-6 max-w-6xl">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
@@ -31,37 +98,78 @@ const AddProspect = () => {
 
         <div className="grid sm:grid-cols-2 gap-5">
           <Field label="Full name" icon={User}>
-            <input className={inputCls} placeholder="Rahul Mehta" onChange={e => setFilled(e.target.value.length > 0 ? Math.max(filled, 1) : filled)} />
+            <input
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              className={inputCls}
+              placeholder="Rahul Mehta"
+            />
           </Field>
           <Field label="Email" icon={Mail}>
-            <input className={inputCls} placeholder="rahul@scaleflow.io" />
+            <input
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              className={inputCls}
+              placeholder="rahul@scaleflow.io"
+            />
           </Field>
           <Field label="LinkedIn URL" icon={Linkedin}>
-            <input className={inputCls} placeholder="linkedin.com/in/rahul-mehta" />
+            <input
+              name="linkedin_url"
+              value={formData.linkedin_url}
+              onChange={handleInputChange}
+              className={inputCls}
+              placeholder="linkedin.com/in/rahul-mehta"
+            />
           </Field>
           <Field label="Company" icon={Building2}>
-            <input className={inputCls} placeholder="ScaleFlow" />
+            <input
+              name="company"
+              value={formData.company}
+              onChange={handleInputChange}
+              className={inputCls}
+              placeholder="ScaleFlow"
+            />
           </Field>
           <Field label="Role" icon={Briefcase}>
-            <select className={inputCls + " appearance-none"}>
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleInputChange}
+              className={inputCls + " appearance-none"}>
               <option>CTO</option><option>Founder</option><option>VP Sales</option>
               <option>CMO</option><option>Recruiter</option><option>Head of Growth</option>
             </select>
           </Field>
           <Field label="Industry" icon={Globe}>
-            <select className={inputCls + " appearance-none"}>
+            <select
+              name="industry"
+              value={formData.industry}
+              onChange={handleInputChange}
+              className={inputCls + " appearance-none"}>
               <option>SaaS</option><option>Fintech</option><option>Marketplace</option>
               <option>AI / ML</option><option>Healthcare</option><option>E-commerce</option>
             </select>
           </Field>
           <Field label="Company size" icon={Building2}>
-            <select className={inputCls + " appearance-none"}>
+            <select
+              name="company_size"
+              value={formData.company_size}
+              onChange={handleInputChange}
+              className={inputCls + " appearance-none"}>
               <option>1–10</option><option>11–50</option><option>51–200</option>
               <option>201–500</option><option>500+</option>
             </select>
           </Field>
           <Field label="Region" icon={Globe}>
-            <select className={inputCls + " appearance-none"}>
+            <select
+              name="region"
+              value={formData.region}
+              onChange={handleInputChange}
+              className={inputCls + " appearance-none"}>
               <option>North America</option><option>Europe</option><option>APAC</option><option>LATAM</option>
             </select>
           </Field>
@@ -70,8 +178,11 @@ const AddProspect = () => {
         <div className="flex items-center justify-between mt-7 pt-5 border-t border-border">
           <button className="text-sm text-muted-foreground hover:text-foreground transition">Save as draft</button>
           <div className="flex gap-2">
-            <button className="h-11 px-5 rounded-xl glass text-sm font-medium hover:bg-surface-elevated">
-              Save Prospect
+            <button
+              onClick={handleSaveProspect}
+              disabled={saving}
+              className="h-11 px-5 rounded-xl glass text-sm font-medium hover:bg-surface-elevated disabled:opacity-50">
+              {saving ? "Saving..." : "Save Prospect"}
             </button>
             <Link to="/app/outreach" className="h-11 px-5 rounded-xl gradient-primary text-primary-foreground text-sm font-medium inline-flex items-center gap-1.5 hover:opacity-90 shadow-[0_0_24px_-4px_hsl(var(--primary)/0.6)]">
               <Sparkles className="h-4 w-4" /> Generate Outreach <ChevronRight className="h-4 w-4" />
