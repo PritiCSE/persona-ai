@@ -3,7 +3,7 @@ import {
   LayoutDashboard, UserPlus, Sparkles, Megaphone, LineChart,
   BrainCircuit, FileText, Plug, Settings, Activity,
 } from "lucide-react";
-import { Logo } from "./Logo";
+import { Logo } from "@/components/Logo";
 import { cn } from "@/lib/utils";
 
 const items = [
