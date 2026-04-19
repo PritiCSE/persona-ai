@@ -1,12 +1,30 @@
 import { Bell, Search, Command, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { prospects, campaigns } from "@/lib/mock-data";
 
 export const TopNav = ({ title, subtitle }: { title: string; subtitle?: string }) => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const notificationsRef = useRef<HTMLDivElement>(null);
+
+  const notifications = [
+    { id: 1, type: "reply", message: "Rahul Mehta replied to your ROI email", time: "2m ago" },
+    { id: 2, type: "meeting", message: "Maya Chen booked a meeting", time: "38m ago" },
+    { id: 3, type: "ai", message: "AI Brain updated CTO template to v3.1", time: "12m ago" },
+  ];
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (notificationsRef.current && !notificationsRef.current.contains(event.target as Node)) {
+        setNotificationsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const searchResults = searchQuery.trim() ? [
     ...prospects.filter(p =>
@@ -82,10 +100,43 @@ export const TopNav = ({ title, subtitle }: { title: string; subtitle?: string }
         <span className="text-xs font-medium text-foreground">Learning Active</span>
       </div>
 
-      <Button variant="ghost" size="icon" className="h-9 w-9 relative">
+      <Button
+        variant="ghost"
+        size="icon"
+        className="h-9 w-9 relative"
+        onClick={() => setNotificationsOpen(!notificationsOpen)}
+      >
         <Bell className="h-[18px] w-[18px]" />
         <span className="absolute top-2 right-2 h-1.5 w-1.5 rounded-full bg-primary" />
       </Button>
+
+      {notificationsOpen && (
+        <div ref={notificationsRef} className="absolute top-16 right-6 w-80 rounded-lg border border-border bg-background shadow-lg z-50">
+          <div className="p-4 border-b border-border/60">
+            <h3 className="font-display font-semibold text-sm">Notifications</h3>
+          </div>
+          <div className="max-h-96 overflow-y-auto">
+            {notifications.map((notif) => (
+              <div key={notif.id} className="px-4 py-3 border-b border-border/30 hover:bg-muted/40 cursor-pointer transition last:border-0">
+                <div className="flex items-start gap-3">
+                  <div className={`h-2 w-2 rounded-full mt-1.5 flex-shrink-0 ${
+                    notif.type === "reply" ? "bg-success" :
+                    notif.type === "meeting" ? "bg-accent" :
+                    "bg-primary"
+                  }`} />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm text-foreground">{notif.message}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{notif.time}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="p-3 border-t border-border/60 text-center">
+            <button className="text-xs font-medium text-primary-glow hover:underline">View all notifications</button>
+          </div>
+        </div>
+      )}
 
       <Link to="/app/add">
         <Button className="h-9 gradient-primary text-primary-foreground hover:opacity-90 shadow-[0_0_24px_-4px_hsl(var(--primary)/0.6)]">

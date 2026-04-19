@@ -15,9 +15,10 @@ class CampaignResponse(BaseModel):
 
 # Temporary in-memory storage with mock campaigns
 campaigns_db = {
-    1: {"id": 1, "name": "Enterprise CTOs - ROI", "status": "Active", "score": 92, "sent": 234, "opens": 156, "replies": 48, "meetings": 12},
-    2: {"id": 2, "name": "Startup Founders", "status": "Active", "score": 87, "sent": 189, "opens": 128, "replies": 42, "meetings": 8},
-    3: {"id": 3, "name": "VP Sales - SMB", "status": "Paused", "score": 78, "sent": 145, "opens": 89, "replies": 22, "meetings": 4},
+    1: {"id": 1, "name": "SaaS Founders Q4", "status": "Active", "score": 92, "sent": 412, "opens": 281, "replies": 96, "meetings": 28},
+    2: {"id": 2, "name": "Recruiters Outbound", "status": "Active", "score": 84, "sent": 308, "opens": 197, "replies": 71, "meetings": 19},
+    3: {"id": 3, "name": "Agencies Pilot", "status": "Optimizing", "score": 76, "sent": 188, "opens": 112, "replies": 38, "meetings": 11},
+    4: {"id": 4, "name": "Enterprise CTOs", "status": "Active", "score": 96, "sent": 332, "opens": 222, "replies": 143, "meetings": 39},
 }
 
 @router.get("/")

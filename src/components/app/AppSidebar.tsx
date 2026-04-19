@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, Link } from "react-router-dom";
 import {
   LayoutDashboard, UserPlus, Sparkles, Megaphone, LineChart,
   BrainCircuit, FileText, Plug, Settings, Activity,
@@ -23,9 +23,9 @@ export const AppSidebar = () => {
   const location = useLocation();
   return (
     <aside className="hidden lg:flex flex-col w-[252px] shrink-0 border-r border-sidebar-border bg-sidebar h-screen sticky top-0 z-30">
-      <div className="px-5 h-16 flex items-center border-b border-sidebar-border">
+      <Link to="/app" className="px-5 h-16 flex items-center border-b border-sidebar-border hover:opacity-80 transition-opacity">
         <Logo />
-      </div>
+      </Link>
       <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto scrollbar-none">
         <p className="px-3 mb-2 text-[10px] font-medium tracking-wider text-muted-foreground uppercase">Workspace</p>
         {items.map((item) => {
